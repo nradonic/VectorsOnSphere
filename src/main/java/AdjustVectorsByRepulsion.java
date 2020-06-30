@@ -11,9 +11,7 @@ public class AdjustVectorsByRepulsion {
         for (ArrowVector v1 : vectorCollection) {
             ArrowVectorCalculations av = new ArrowVectorCalculations(v1, vectorCollection.size());
             for (ArrowVector v2 : vectorCollection) {
-                if (v1 != v2) {
-                    av.calculateVectorCorrections(v2);
-                }
+                av.calculateVectorCorrections(v2);
             }
             arrowVectorCalculations.add(av);
         }
@@ -30,7 +28,7 @@ public class AdjustVectorsByRepulsion {
         }
 
         for (ArrowVector av : vectorCollection) {
-            av.adjust(av.getZ()/10, 0.0, -av.getX()/10);
+            av.adjust(av.getZ() / 10, 0.0, -av.getX() / 10);
         }
     }
 }

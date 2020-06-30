@@ -17,16 +17,20 @@ public class ArrowVectorCalculations {
     }
 
     public void calculateVectorCorrections(ArrowVector v2) {
-        if (arrowVector == v2){
+        if (arrowVector == v2) {
             return;
         }
-        Double deltaX = v1X - v2.getX();
-        Double deltaY = v1Y - v2.getY();
-        Double deltaZ = v1Z - v2.getZ();
-        Double scale = normalizeSize(deltaX, deltaY, deltaZ);
-        dX += deltaX / scale;
-        dY += deltaY / scale;
-        dZ += deltaZ / scale;
+//        Double deltaX = v1X - v2.getX();
+//        Double deltaY = v1Y - v2.getY();
+//        Double deltaZ = v1Z - v2.getZ();
+        ArrowVector diff = new ArrowVector(arrowVector, v2);
+
+        ArrowVector inverseDifference = diff.getInverseNormalizedDifference();
+
+
+        dX += inverseDifference.getX();
+        dY += inverseDifference.getY();
+        dZ += inverseDifference.getZ();
     }
 
 

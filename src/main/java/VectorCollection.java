@@ -6,6 +6,5 @@ public class VectorCollection extends ArrayList<ArrowVector> {
         for (int index = 0; index < i; index++) {
             this.add(new ArrowVector());
         }
-        int a = 1;
     }
 }

@@ -15,7 +15,7 @@ public class ArrowVector {
 
     private void generateRandomXYZ() {
         Double xTemp = random.nextDouble() * 2 - 1;
-        Double yTemp = random.nextDouble() * 2 - 1;
+        Double yTemp = random.nextDouble() * 0.2 - 0.1;
         Double zTemp = random.nextDouble() * 2 - 1;
         Double scale = normalizeSize(xTemp, yTemp, zTemp);
         x = xTemp / scale;
@@ -58,13 +58,33 @@ public class ArrowVector {
         this.z = oldArrowVector.getZ();
     }
 
-    public void adjust(Double dx, Double dy, Double dz){
-        Double xTemp = x+dx;
-        Double yTemp = y+dy;
-        Double zTemp = z+dz;
+    public void adjust(Double dx, Double dy, Double dz) {
+        Double xTemp = x + dx;
+        Double yTemp = y + dy;
+        Double zTemp = z + dz;
         Double scale = normalizeSize(xTemp, yTemp, zTemp);
         x = xTemp / scale;
         y = yTemp / scale;
         z = zTemp / scale;
+    }
+
+    public ArrowVector(ArrowVector v1, ArrowVector v2) {
+        x = v1.getX() - v2.getX();
+        y = v1.getY() - v2.getY();
+        z = v1.getZ() - v2.getZ();
+    }
+
+    public ArrowVector getInverseNormalizedDifference() {
+        Double k = normalizeSize(x, y, z);
+        if (k != 0.0 && x != 0.0) {
+            x = x / k;
+        }
+        if (k != 0.0 && y != 0.0) {
+            y = y / k;
+        }
+        if (k != 0.0 && z != 0.0) {
+            z = z / k;
+        }
+        return this;
     }
 }

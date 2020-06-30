@@ -8,6 +8,12 @@ public class DrawArrowVectorsAs2DProjections {
         int length = (g.getClipBounds().width - headerWidth) / 2;
 
         for (ArrowVector v : vectorCollection) {
+            paintAsVector(g, headerWidth, length, v);
+        }
+    }
+
+    private static void paintAsVector(Graphics g, int headerWidth, int length, ArrowVector v) {
+        if(v.getZ()>0) {
             int centerX = length + headerWidth / 2;
             int centerY = length + headerWidth;
             int x = (int) (v.getX() * length);
