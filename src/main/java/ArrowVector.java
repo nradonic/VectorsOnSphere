@@ -15,7 +15,7 @@ public class ArrowVector {
 
     private void generateRandomXYZ() {
         Double xTemp = random.nextDouble() * 2 - 1;
-        Double yTemp = random.nextDouble() * 0.2 - 0.1;
+        Double yTemp = random.nextDouble() * 0.02 - 0.01;
         Double zTemp = random.nextDouble() * 2 - 1;
         Double scale = normalizeSize(xTemp, yTemp, zTemp);
         x = xTemp / scale;

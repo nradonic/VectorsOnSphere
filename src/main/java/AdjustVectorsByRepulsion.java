@@ -22,13 +22,12 @@ public class AdjustVectorsByRepulsion {
         int a = 1;
     }
 
-    public static void rotateAroundZ() {
+    public static void rotateAroundZ(Double angle){
         if (vectorCollection == null) {
             return;
         }
-
         for (ArrowVector av : vectorCollection) {
-            av.adjust(av.getZ() / 10, 0.0, -av.getX() / 10);
+            av.adjust(av.getZ() * Math.cos(angle), 0.0, -av.getX() * Math.sin(angle));
         }
     }
 }
