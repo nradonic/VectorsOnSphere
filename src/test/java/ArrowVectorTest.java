@@ -7,9 +7,10 @@ public class ArrowVectorTest {
 
     @Test
     public void testNonRandomVector() {
-        Assertions.assertEquals(0.6964162635506213, arrowVector.getX());
-        Assertions.assertEquals(0.6539742849060032, arrowVector.getY());
-        Assertions.assertEquals(0.2955029992129915, arrowVector.getZ());
+        ArrowVector arrowVector = new ArrowVector(nonRandomSeed);
+        Assertions.assertEquals(0.6516616558174498, arrowVector.getX());
+        Assertions.assertEquals(0.5246870281514043, arrowVector.getY());
+        Assertions.assertEquals(-0.5477596268683069, arrowVector.getZ());
 
     }
 
