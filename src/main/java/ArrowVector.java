@@ -60,9 +60,10 @@ public class ArrowVector {
     }
 
     public void adjust(Double dx, Double dy, Double dz) {
-        Double xTemp = x + dx;
-        Double yTemp = y + dy;
-        Double zTemp = z + dz;
+        Double k = 0.1;
+        Double xTemp = x + dx * k;
+        Double yTemp = y + dy * k;
+        Double zTemp = z + dz * k;
         Double scale = normalizeSize(xTemp, yTemp, zTemp);
         x = xTemp / scale;
         y = yTemp / scale;

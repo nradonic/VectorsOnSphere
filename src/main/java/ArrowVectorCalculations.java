@@ -20,9 +20,7 @@ public class ArrowVectorCalculations {
         if (arrowVector == v2) {
             return;
         }
-//        Double deltaX = v1X - v2.getX();
-//        Double deltaY = v1Y - v2.getY();
-//        Double deltaZ = v1Z - v2.getZ();
+
         ArrowVector diff = new ArrowVector(arrowVector, v2);
 
         ArrowVector inverseDifference = diff.getInverseNormalizedDifference();

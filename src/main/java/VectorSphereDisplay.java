@@ -5,10 +5,10 @@ import java.awt.*;
 
 public class VectorSphereDisplay extends JFrame {
     String emptyLabel = "Vectors On A Sphere - Spread By Repulsion";
-    VectorCollection vectorCollection ;
+    Vectors vectors;
 
-    VectorSphereDisplay(VectorCollection vectorCollection) {
-        this.vectorCollection = vectorCollection;
+    VectorSphereDisplay(Vectors vectors) {
+        this.vectors = vectors;
 
         JFrame jFrame = this;
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -18,7 +18,7 @@ public class VectorSphereDisplay extends JFrame {
 
         Dimension d = new Dimension(1500,1500);
 
-        jFrame.setTitle(emptyLabel);
+        annotateTitle(emptyLabel);
 
         Border s = BorderFactory.createBevelBorder(1);
         jPanel1.setBorder(s);
@@ -33,7 +33,11 @@ public class VectorSphereDisplay extends JFrame {
 
     }
 
+    public void annotateTitle(String s){
+        this.setTitle(emptyLabel + " " + s);
+    }
+
     public void paint(Graphics g){
-        DrawArrowVectorsAs2DProjections.drawArrowVectors(g, vectorCollection);
+        DrawArrowVectorsAs2DProjections.drawArrowVectors(g, vectors);
     }
 }

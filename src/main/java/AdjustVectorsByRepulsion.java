@@ -2,15 +2,15 @@ import java.util.ArrayList;
 
 public class AdjustVectorsByRepulsion {
 
-    static VectorCollection vectorCollection;
+    static Vectors vectors;
 
-    public static void moveThem(VectorCollection vectors) {
-        vectorCollection = vectors;
+    public static void moveThem(Vectors vectors) {
+        AdjustVectorsByRepulsion.vectors = vectors;
         ArrayList<ArrowVectorCalculations> arrowVectorCalculations = new ArrayList<>();
 
-        for (ArrowVector v1 : vectorCollection) {
-            ArrowVectorCalculations av = new ArrowVectorCalculations(v1, vectorCollection.size());
-            for (ArrowVector v2 : vectorCollection) {
+        for (ArrowVector v1 : AdjustVectorsByRepulsion.vectors) {
+            ArrowVectorCalculations av = new ArrowVectorCalculations(v1, AdjustVectorsByRepulsion.vectors.size());
+            for (ArrowVector v2 : AdjustVectorsByRepulsion.vectors) {
                 av.calculateVectorCorrections(v2);
             }
             arrowVectorCalculations.add(av);
@@ -23,10 +23,10 @@ public class AdjustVectorsByRepulsion {
     }
 
     public static void rotateAroundZ(Double angle){
-        if (vectorCollection == null) {
+        if (vectors == null) {
             return;
         }
-        for (ArrowVector av : vectorCollection) {
+        for (ArrowVector av : vectors) {
             av.adjust(av.getZ() * Math.cos(angle), 0.0, -av.getX() * Math.sin(angle));
         }
     }
