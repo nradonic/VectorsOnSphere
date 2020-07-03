@@ -8,19 +8,19 @@ public class ArrowVectorTest {
     @Test
     public void testNonRandomVector() {
         ArrowVector arrowVector = new ArrowVector(nonRandomSeed);
-        Assertions.assertEquals(0.6516616558174498, arrowVector.getX());
-        Assertions.assertEquals(0.5246870281514043, arrowVector.getY());
-        Assertions.assertEquals(-0.5477596268683069, arrowVector.getZ());
+        Assertions.assertEquals(0.6516616558174498, arrowVector.getX(), 0.00000001);
+        Assertions.assertEquals(0.5246870281514043, arrowVector.getY(), 0.00000001);
+        Assertions.assertEquals(-0.5477596268683069, arrowVector.getZ(), 0.00000001);
 
     }
 
     @Test
     public void testInitializedVector() {
-        ArrowVector arrowVector2 = new ArrowVector(1.0,2.0,3.0);
+        ArrowVector arrowVector2 = new ArrowVector(1.0, 2.0, 3.0);
 
-        Assertions.assertEquals(0.2672612419124244, arrowVector2.getX());
-        Assertions.assertEquals(0.5345224838248488, arrowVector2.getY());
-        Assertions.assertEquals(0.8017837257372732, arrowVector2.getZ());
+        Assertions.assertEquals(0.2672612419124244, arrowVector2.getX(), 0.00000001);
+        Assertions.assertEquals(0.5345224838248488, arrowVector2.getY(), 0.00000001);
+        Assertions.assertEquals(0.8017837257372732, arrowVector2.getZ(), 0.00000001);
 
     }
 
@@ -28,9 +28,9 @@ public class ArrowVectorTest {
     public void testDuplicatedVector() {
         ArrowVector arrowVector3 = new ArrowVector(arrowVector);
 
-        Assertions.assertEquals(arrowVector.getX(), arrowVector3.getX());
-        Assertions.assertEquals(arrowVector.getY(), arrowVector3.getY());
-        Assertions.assertEquals(arrowVector.getZ(), arrowVector3.getZ());
+        Assertions.assertEquals(arrowVector.getX(), arrowVector3.getX(), 0.00000001);
+        Assertions.assertEquals(arrowVector.getY(), arrowVector3.getY(), 0.00000001);
+        Assertions.assertEquals(arrowVector.getZ(), arrowVector3.getZ(), 0.00000001);
 
     }
 

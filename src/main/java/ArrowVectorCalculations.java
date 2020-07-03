@@ -52,4 +52,9 @@ public class ArrowVectorCalculations {
     public Double getdZ() {
         return dZ;
     }
+
+    public ArrowVector unitDifferenceVector() {
+        ArrowVector arrowVector = new ArrowVector(dX, dY, dZ);
+        return arrowVector;
+    }
 }

@@ -3,31 +3,39 @@ import java.util.ArrayList;
 public class AdjustVectorsByRepulsion {
 
     static Vectors vectors;
+    static final Double scale = 0.10;
 
     public static void moveThem(Vectors vectors) {
         AdjustVectorsByRepulsion.vectors = vectors;
-        ArrayList<ArrowVectorCalculations> arrowVectorCalculations = new ArrayList<>();
+        ArrayList<ArrowVectorCalculations> arrowVectorCalculationsList = new ArrayList<>();
 
         for (ArrowVector v1 : AdjustVectorsByRepulsion.vectors) {
-            ArrowVectorCalculations av = new ArrowVectorCalculations(v1, AdjustVectorsByRepulsion.vectors.size());
-            for (ArrowVector v2 : AdjustVectorsByRepulsion.vectors) {
-                av.calculateVectorCorrections(v2);
-            }
-            arrowVectorCalculations.add(av);
+            arrowVectorCalculationsList.add(calculateForcing(v1));
         }
 
-        for (ArrowVectorCalculations avc : arrowVectorCalculations) {
-            avc.getArrowVector().adjust(avc.getdX(), avc.getdY(), avc.getdZ());
+        for (ArrowVectorCalculations avc : arrowVectorCalculationsList) {
+            ArrowVector unitDiff = avc.unitDifferenceVector();
+            avc.getArrowVector().deltas(unitDiff.getX(), unitDiff.getY(), unitDiff.getZ());
+            avc.getArrowVector().adjust(scale);
+
         }
-        int a = 1;
     }
 
-    public static void rotateAroundZ(Double angle){
+    private static ArrowVectorCalculations calculateForcing(ArrowVector v1) {
+        ArrowVectorCalculations avc = new ArrowVectorCalculations(v1, AdjustVectorsByRepulsion.vectors.size());
+        for (ArrowVector v2 : AdjustVectorsByRepulsion.vectors) {
+            avc.calculateVectorCorrections(v2);
+        }
+        return avc;
+    }
+
+    public static void rotateAroundZ(Double angle) {
         if (vectors == null) {
             return;
         }
         for (ArrowVector av : vectors) {
-            av.adjust(av.getZ() * Math.cos(angle), 0.0, -av.getX() * Math.sin(angle));
+            av.deltas(av.getZ() * Math.cos(angle), 0.0, -av.getX() * Math.sin(angle));
+            av.adjust(scale);
         }
     }
 }
