@@ -1,21 +1,31 @@
+import javax.swing.*;
 import java.awt.*;
 
-public class DrawArrowVectorsAs2DProjections {
+public class VectorDisplay extends JPanel {
 
-    static void drawArrowVectors(Graphics g, Vectors vectors, Double angle) {
-//        int headerWidth = 50;
-//        g.clearRect(0, 2*headerWidth, g.getClipBounds().width, g.getClipBounds().height);
-//        int length = (g.getClipBounds().width - headerWidth) / 5;
-//
-//        for (ArrowVector v : vectors) {
-//            paintAsVector(g, headerWidth, length, v, angle);
-//        }
+    Vectors vectors;
+    private Double angle;
+
+    VectorDisplay(Vectors vectors) {
+        setMinimumSize(new Dimension(500, 500));
+        setBorder(BorderFactory.createLineBorder(Color.CYAN));
+        this.vectors = vectors;
     }
 
-    private static void paintAsVector(Graphics g, int headerWidth, int length, ArrowVector v, Double angle) {
+    void drawArrowVectors(Graphics g) {
+        int headerWidth = 50;
+        g.clearRect(0, 0, g.getClipBounds().width, g.getClipBounds().height);
+        int length = (Math.min(g.getClipBounds().width,g.getClipBounds().height)) / 5;
 
-        int centerX = length * 5/2 + headerWidth / 2;
-        int centerY = length * 5/2 + headerWidth;
+        for (ArrowVector v : vectors) {
+            paintAsVector(g, 0, length, v, angle);
+        }
+    }
+
+    private void paintAsVector(Graphics g, int headerWidth, int length, ArrowVector v, Double angle) {
+
+        int centerX = length * 5 / 2 + headerWidth / 2;
+        int centerY = length * 5 / 2 + headerWidth;
         Double rotatedX = rotate(v, angle);
         Double rotatedDx = rotateDx(v, angle);
         int x = (int) (rotatedX * length);
@@ -31,7 +41,7 @@ public class DrawArrowVectorsAs2DProjections {
         g.drawOval((int) (centerX + x + dX), (int) (centerY + y + dY), 5, 5);
     }
 
-    static Color calculateColorForVector(ArrowVector v) {
+    Color calculateColorForVector(ArrowVector v) {
         int colorRangeHalf = 128;
         int r = (int) (v.getX() * colorRangeHalf + colorRangeHalf);
         int g = (int) (v.getY() * colorRangeHalf + colorRangeHalf);
@@ -39,7 +49,7 @@ public class DrawArrowVectorsAs2DProjections {
         return new Color(r, g, b);
     }
 
-    static private Double rotate(ArrowVector v, Double angle) {
+    private Double rotate(ArrowVector v, Double angle) {
 
         Double x = v.getX();
         Double z = v.getZ();
@@ -47,14 +57,19 @@ public class DrawArrowVectorsAs2DProjections {
         return newX;
     }
 
-    static private Double rotateDx(ArrowVector v, Double angle) {
+    private Double rotateDx(ArrowVector v, Double angle) {
 
         Double x = v.getdX();
         Double z = v.getdZ();
         Double newX = z * Math.sin(angle) + x * Math.cos(angle);
         return newX;
     }
-}
 
-// TODO: draw graphic into a JPanel component instead of the entire screen
-//
+    public void paint(Graphics g) {
+        drawArrowVectors(g);
+    }
+
+    public void setAngle(Double angle) {
+        this.angle = angle;
+    }
+}
