@@ -32,25 +32,8 @@ public class ArrowVectorCalculations {
     }
 
 
-    private Double normalizeSize(Double x, Double y, Double z) {
-        Double k = x * x + y * y + z * z;
-        return k * collectionScaling;
-    }
-
     public ArrowVector getArrowVector() {
         return arrowVector;
-    }
-
-    public Double getdX() {
-        return dX;
-    }
-
-    public Double getdY() {
-        return dY;
-    }
-
-    public Double getdZ() {
-        return dZ;
     }
 
     public ArrowVector unitDifferenceVector() {
