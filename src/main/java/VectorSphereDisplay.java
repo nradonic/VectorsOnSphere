@@ -7,12 +7,11 @@ import java.util.logging.Logger;
 public class VectorSphereDisplay extends JFrame {
     static Logger logger = Logger.getLogger(VectorSphereDisplay.class.getName());
 
-    String emptyLabel = "Vectors On A Sphere - Spread By Repulsion";
+    String emptyLabel = "Vectors On A Sphere - Neighbors Angle Spread By Repulsion";
     Vectors vectors;
 
-    static boolean nextGeneration = false;
-    static boolean continuous = false;
-    static Double angle = 0.0;
+    static Double rotationAngle = 0.0;
+    static Double rotationRate = Math.PI / 100; // at 10 frames/sec
 
     static Controls controls = new Controls();
     VectorDisplay vectorPanel;
@@ -60,7 +59,9 @@ public class VectorSphereDisplay extends JFrame {
 
     public boolean getNextGeneration() {
 //        logger.info("getNextGen");
-        vectorPanel.setAngle(controls.getAngle());
+        rotationAngle += rotationRate;
+        if (rotationAngle > 2 * Math.PI) { rotationAngle = -2 * Math.PI + rotationAngle; }
+        vectorPanel.setAngle(controls.getAngle() + rotationAngle );
 
         return controls.getNextGeneration();
     }

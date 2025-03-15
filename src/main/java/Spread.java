@@ -16,23 +16,35 @@ public class Spread {
     }
 
 
-    public static Double minimumAngle(Vectors vectors) {
+    public static Tuple2D minimumAngle(Vectors vectors) {
 
-        Double minimumCP = 1.0;
+        Double minimumCP = 2 * Math.PI;
+        Double maximumCP = 0.0;
+
 
         for (ArrowVector arrowVector1 : vectors) {
+            minimumCP = 2 * Math.PI;
             for (ArrowVector arrowVector2 : vectors) {
                 if (arrowVector1 == arrowVector2) {
                     continue;
                 }
-                minimumCP = Math.min(
-                        crossProduct(arrowVector1, arrowVector2),
-                        minimumCP);
+                Double cA = calculateAngle(arrowVector1, arrowVector2);
+                minimumCP = Math.min(cA, minimumCP);
             }
+            maximumCP = Math.max(minimumCP, maximumCP);
         }
-        return minimumCP;
+        return new Tuple2D(180 * minimumCP / Math.PI, 180 * maximumCP / Math.PI);
     }
 
+    private static Double calculateAngle(ArrowVector vector1, ArrowVector vector2) {
+
+        double angle = Math.acos(dotProduct(vector1, vector2) / vector1.magnitude() / vector2.magnitude());
+        return angle;
+    }
+
+    public static Double dotProduct(ArrowVector vector1, ArrowVector vector2) {
+        return vector1.getX() * vector2.getX() + vector1.getY() * vector2.getY() + vector1.getZ() * vector2.getZ();
+    }
 
     public static Double crossProduct(ArrowVector arrowVectorA, ArrowVector arrowVectorB) {
 

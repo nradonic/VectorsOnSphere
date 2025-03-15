@@ -32,7 +32,8 @@ public class TopLevel {
                 vectors = new Vectors(tempVectorCount);
                 accumulatedVectors.clear();
             }
-            vectorSphereDisplay.annotateTitle(Spread.minimumAngle(vectors).toString());
+            Tuple2D k =  Spread.minimumAngle(vectors);
+            vectorSphereDisplay.annotateTitle(String.format("%3.3f", k.one()) + " : " + String.format("%3.3f", k.two()));
             vectorSphereDisplay.repaint();
         } while (true);
     }
