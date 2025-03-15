@@ -18,7 +18,6 @@ public class ArrowVector {
     }
 
     public ArrowVector(int seed) {
-        this.seed = seed;
         random = new Random(seed);
         generateRandomXYZ();
     }
@@ -49,12 +48,12 @@ public class ArrowVector {
     }
 
     private Double magnitude(Double x, Double y, Double z) {
-        Double k = x * x + y * y + z * z;
+        double k = x * x + y * y + z * z;
         return Math.sqrt(k);
     }
 
     public Double magnitude() {
-        Double k = x * x + y * y + z * z;
+        double k = x * x + y * y + z * z;
         return Math.sqrt(k);
     }
 
