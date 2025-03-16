@@ -12,6 +12,7 @@ public static void main(String[] args) throws InterruptedException {
 
     int i = 0;
     do {
+        vectorSphereDisplay.setIgnoreRepaint( true ) ;
         TimeUnit.MILLISECONDS.sleep(100);
         i++;
         boolean nextGen = vectorSphereDisplay.getNextGeneration();
@@ -28,6 +29,7 @@ public static void main(String[] args) throws InterruptedException {
         }
         Tuple2D k = Spread.minimumAngle(vectors);
         vectorSphereDisplay.annotateTitle(String.format("%3.3f", k.one()) + " : " + String.format("%3.3f", k.two()));
+        vectorSphereDisplay.setIgnoreRepaint( false ) ;
         vectorSphereDisplay.repaint();
     } while (true);
 }

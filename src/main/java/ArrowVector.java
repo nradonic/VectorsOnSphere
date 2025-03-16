@@ -3,6 +3,7 @@ import java.util.Random;
 public class ArrowVector {
 
     static int seed = 42;
+    int age = 0;
     private Double x = 0.0;
     private Double y = 0.0;
     private Double z = 0.0;
@@ -31,6 +32,9 @@ public class ArrowVector {
 
     public ArrowVector(ArrowVector oldArrowVector) {
         this(oldArrowVector.getX(), oldArrowVector.getY(), oldArrowVector.getZ());
+        this.dX = oldArrowVector.getdX();
+        this.dY = oldArrowVector.getdY();
+        this.dZ = oldArrowVector.getdZ();
     }
 
     public ArrowVector(ArrowVector v1, ArrowVector v2) {
@@ -38,9 +42,10 @@ public class ArrowVector {
     }
 
     private void generateRandomXYZ() {
-        Double xTemp = random.nextDouble() * 2 - 1;
-        Double yTemp = random.nextDouble() * 2 - 1;
-        Double zTemp = random.nextDouble() ;
+        Double bias = 5.0;
+        Double xTemp = random.nextDouble() * 2 - 1 + bias;
+        Double yTemp = random.nextDouble() * 2 - 1 + bias;
+        Double zTemp = random.nextDouble() * 2 - 1 + bias;
         Double scale = magnitude(xTemp, yTemp, zTemp);
         x = xTemp / scale;
         y = yTemp / scale;
@@ -100,7 +105,13 @@ public class ArrowVector {
         return this;
     }
 
+    public boolean ageEqZero(){
+        return age == 0;
+    }
 
+    public void ageSetGTZero(){
+        age = 1;
+    }
 
     public Double getdX() {
         return dX;

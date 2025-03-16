@@ -15,30 +15,33 @@ public class VectorDisplay extends JPanel {
     void drawArrowVectors(Graphics g) {
         int headerWidth = 50;
         g.clearRect(0, 0, g.getClipBounds().width, g.getClipBounds().height);
-        int length = (Math.min(g.getClipBounds().width,g.getClipBounds().height)) / 5;
+        int length = (Math.min(g.getClipBounds().width, g.getClipBounds().height)) / 5;
 
         for (ArrowVector v : vectors) {
-            paintAsVector(g, 0, length, v, angle);
+            paintAsVector(g, headerWidth, length, v, angle);
         }
     }
 
     private void paintAsVector(Graphics g, int headerWidth, int length, ArrowVector v, Double angle) {
-
-        int centerX = length * 5 / 2 + headerWidth / 2;
-        int centerY = length * 5 / 2 + headerWidth;
+        final int ovalRadius = 5;
+        final int vectorLengthToDisplayScaling = 2;
+        int centerX = g.getClipBounds().width / 2;
+        int centerY = length * 2 + headerWidth;
         Double rotatedX = rotate(v, angle);
         Double rotatedDx = rotateDx(v, angle);
-        int x = (int) (rotatedX * length);
-        int y = (int) (v.getY() * length);
-        int dX = (int) (rotatedDx * length);
-        int dY = (int) (v.getdY() * length);
-
+        int x = (int) (rotatedX * length * vectorLengthToDisplayScaling);
+        int y = (int) (v.getY() * length * vectorLengthToDisplayScaling);
+        int dX = (int) (rotatedDx * ovalRadius);//length);
+        int dY = (int) (v.getdY() * ovalRadius);//length);
 
         g.setColor(calculateColorForVector(v));
-        g.drawLine(centerX, centerY, centerX + x, centerY + y);
-        g.drawOval(centerX + x, centerY + y, 10, 10);
-        g.drawLine(centerX + x, centerY + y, (int) (centerX + x + dX), (int) (centerY + y + dY));
-        g.drawOval((int) (centerX + x + dX), (int) (centerY + y + dY), 5, 5);
+        if(v.ageEqZero()) {
+            g.drawLine(centerX, centerY, centerX + x, centerY + y);
+        }
+        g.drawOval(centerX + x - ovalRadius, centerY + y - ovalRadius,
+                2 * ovalRadius, 2 * ovalRadius);
+        g.drawOval((int) (centerX + x + dX - ovalRadius / 2.0), (int) (centerY + y + dY - ovalRadius / 2.0),
+                ovalRadius, ovalRadius);
     }
 
     Color calculateColorForVector(ArrowVector v) {
