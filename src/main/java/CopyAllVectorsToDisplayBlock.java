@@ -2,7 +2,7 @@ public class CopyAllVectorsToDisplayBlock {
     static int maxBufferDepth = 49;
 
     static void copyAllVectorsToDisplayBlock(Vectors currentAV, Vectors accumulatedAV) {
-        Boolean clipBuffer = accumulatedAV.size() > maxBufferDepth * currentAV.size();
+        boolean clipBuffer = accumulatedAV.size() > maxBufferDepth * currentAV.size();
         agePreviousVectors(currentAV, accumulatedAV);
 
         for (ArrowVector arrowVector : currentAV) {

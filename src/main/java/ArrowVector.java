@@ -35,6 +35,7 @@ public class ArrowVector {
         this.dX = oldArrowVector.getdX();
         this.dY = oldArrowVector.getdY();
         this.dZ = oldArrowVector.getdZ();
+        this.age = 0;
     }
 
     public ArrowVector(ArrowVector v1, ArrowVector v2) {
@@ -42,7 +43,7 @@ public class ArrowVector {
     }
 
     private void generateRandomXYZ() {
-        Double bias = 5.0;
+        double bias = 5.0;
         Double xTemp = random.nextDouble() * 2 - 1 + bias;
         Double yTemp = random.nextDouble() * 2 - 1 + bias;
         Double zTemp = random.nextDouble() * 2 - 1 + bias;
