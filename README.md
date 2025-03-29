@@ -8,3 +8,6 @@ Minimum angle difference is displayed in title bar.
 Uses Java 14, but I think it will run in Java 8 -- at least it did in the one graphics trouble shooting test I did.
 
 ![Screen Shot 2020-07-12 at 11 20 16 PM](https://github.com/user-attachments/assets/47530e1f-631e-4200-abe6-f2d148218c20)
+
+
+The HTML version is based on the Java code, but is not an exact copy. More of an exercise for ChatGPT's aid in conversion.
