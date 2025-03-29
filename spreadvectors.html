@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vector Repulsion</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <label for="vectorCount">Vector Count:</label>
+    <input type="number" id="vectorCount" value="50" min="1" oninput="initializeVectors()">
+    <p>Minimum Nearest Neighbor Angle: <span id="minAngle">0</span></p>
+    <p>Average Nearest Neighbor Angle: <span id="avgAngle">0</span></p>
+    <p>Maximum Nearest Neighbor Angle: <span id="maxAngle">0</span></p>
+    <canvas id="vectorCanvas" width="500" height="500"></canvas>
+    <br>
+    <label for="rotationAngle">Rotation Angle:</label>
+    <input type="range" id="rotationAngle" min="0" max="360" value="0" oninput="drawVectors()">
+    <br>
+    <button id="stepButton" onmousedown="startStepping()" onmouseup="stopStepping()" onmouseleave="stopStepping()">Hold
+        to Step</button>
+
+    <script>
+        class Vector {
+            constructor(x, y, z) {
+                this.x = x;
+                this.y = y;
+                this.z = z;
+                this.dx = 0;
+                this.dy = 0;
+                this.dz = 0;
+            }
+
+            static randomClusteredVector() {
+                let baseX = 0.1 * (Math.random() - 0.5);
+                let baseY = 0.1 * (Math.random() - 0.5);
+                let baseZ = 0.1 * (Math.random() - 0.5);
+                let mag = Math.sqrt(baseX * baseX + baseY * baseY + baseZ * baseZ);
+                return new Vector(baseX / mag, baseY / mag, baseZ / mag);
+            }
+
+            adjust(scale) {
+                this.x += this.dx * scale;
+                this.y += this.dy * scale;
+                this.z += this.dz * scale;
+                let mag = Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+                this.x /= mag;
+                this.y /= mag;
+                this.z /= mag;
+            }
+        }
+
+        let vectors = [];
+        let stepRunning = false;
+
+        function initializeVectors() {
+            let count = parseInt(document.getElementById("vectorCount").value);
+            vectors = [];
+            for (let i = 0; i < count; i++) {
+                vectors.push(Vector.randomClusteredVector());
+            }
+            drawVectors();
+        }
+
+        function stepUpdate() {
+            if (!stepRunning) return;
+            vectors.forEach(v => {
+                v.dx = 0;
+                v.dy = 0;
+                v.dz = 0;
+
+                vectors.forEach(other => {
+                    if (v !== other) {
+                        let dx = v.x - other.x;
+                        let dy = v.y - other.y;
+                        let dz = v.z - other.z;
+                        let dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                        if (dist > 0) {
+                            let force = 0.05 / (dist * dist);
+                            v.dx += dx * force;
+                            v.dy += dy * force;
+                            v.dz += dz * force;
+                        }
+                    }
+                });
+                v.adjust(0.1);
+            });
+            calculateAngles();
+            drawVectors();
+            rotationX += 0.05;
+            setTimeout(() => requestAnimationFrame(stepUpdate), 100);
+        }
+
+        function startStepping() {
+            stepRunning = true;
+            stepUpdate();
+        }
+
+        function stopStepping() {
+            stepRunning = false;
+        }
+
+        function calculateAngles() {
+            let totalAngle = 0;
+            let minAngle = Infinity;
+            let maxAngle = 0;
+            let count = 0;
+
+            vectors.forEach(v => {
+                let nearestAngle = Infinity;
+
+                vectors.forEach(other => {
+                    if (v !== other) {
+                        let dotProduct = v.x * other.x + v.y * other.y + v.z * other.z;
+                        let angle = Math.acos(dotProduct) * (180 / Math.PI);
+                        if (angle < nearestAngle) {
+                            nearestAngle = angle;
+                        }
+                    }
+                });
+
+                if (nearestAngle !== Infinity) {
+                    totalAngle += nearestAngle;
+                    if (nearestAngle > maxAngle) {
+                        maxAngle = nearestAngle;
+                    } else if (nearestAngle < minAngle) {
+                        minAngle = nearestAngle;
+                    }
+                    count++;
+                }
+            });
+
+            document.getElementById("minAngle").textContent = `Min Angle: ${minAngle.toFixed(2)}°`;
+            document.getElementById("avgAngle").textContent = (totalAngle / count).toFixed(2);
+            document.getElementById("maxAngle").textContent = `Max Angle: ${maxAngle.toFixed(2)}°`;
+            document.getElementById("minAngle").textContent = minAngle.toFixed(2);
+        }
+
+        let rotationX = 0;
+        function drawVectors() {
+            let canvas = document.getElementById("vectorCanvas");
+            let ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            let angle = parseFloat(document.getElementById("rotationAngle").value) * Math.PI / 180;
+            let cosA = Math.cos(angle);
+            let sinA = Math.sin(angle);
+            let cosX = Math.cos(rotationX);
+            let sinX = Math.sin(rotationX);
+
+            vectors.forEach(v => {
+                let rotatedX = cosA * v.x - sinA * v.z;
+                let rotatedZ = sinA * v.x + cosA * v.z;
+
+                let originX = canvas.width / 2;
+                let originY = canvas.height / 2;
+                let x = originX + rotatedX * 200;
+                let rotatedY = cosX * v.y - sinX * rotatedZ;
+                let rotatedFinalZ = sinX * v.y + cosX * rotatedZ;
+                let y = originY - rotatedY * 200;
+                let size = (rotatedZ + 1) * 3 + 2;
+
+                let r = Math.floor((v.x + 1) * 96 + 64);
+                let g = Math.floor((v.y + 1) * 96 + 64);
+                let b = Math.floor((v.z + 1) * 96 + 64);
+                ctx.fillStyle = `rgb(${r},${g},${b})`;
+                ctx.strokeStyle = `rgb(${r},${g},${b})`;
+
+                ctx.beginPath();
+                ctx.moveTo(originX, originY);
+                ctx.lineTo(x, y);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+        }
+
+        initializeVectors();
+    </script>
+</body>
+
+</html>
