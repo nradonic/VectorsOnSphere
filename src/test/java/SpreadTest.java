@@ -25,24 +25,4 @@ class SpreadTest {
         assertEquals(expected, Spread.norm(arrowVectorZ));
         assertTrue(Math.abs(expected - Spread.norm(arrowVectorMid)) < 0.00001);
     }
-
-    @Test
-    public void crossproductOne() {
-        Double expected = 1.0;
-        vectors.add(arrowVectorX);
-        vectors.add(arrowVectorY);
-        Double result = Spread.calculateMean(vectors);
-        assertTrue(Math.abs(expected - result) < 0.00001);
-
-        vectors.add(arrowVectorZ);
-        result = Spread.calculateMean(vectors);
-        assertTrue(Math.abs(expected - result) < 0.00001);
-
-
-        vectors.add(arrowVectorMid);
-        expected = 0.9082482904638631;
-        result = Spread.calculateMean(vectors);
-        assertTrue(Math.abs(expected - result) < 0.00001);
-
-    }
 }

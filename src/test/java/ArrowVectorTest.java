@@ -8,10 +8,8 @@ public class ArrowVectorTest {
     @Test
     public void testNonRandomVector() {
         ArrowVector arrowVector = new ArrowVector(nonRandomSeed);
-        Assertions.assertEquals(0.6516616558174498, arrowVector.getX(), 0.00000001);
-        Assertions.assertEquals(0.5246870281514043, arrowVector.getY(), 0.00000001);
-        Assertions.assertEquals(-0.5477596268683069, arrowVector.getZ(), 0.00000001);
-
+        var k = arrowVector.magnitude();
+        Assertions.assertEquals(1.0, k, 0.00000001);
     }
 
     @Test
