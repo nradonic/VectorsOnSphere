@@ -1,22 +1,5 @@
 public class Spread {
-    public static Double calculateMean(Vectors vectors) {
-
-        Double sumCPs = 0.0;
-
-        for (ArrowVector arrowVector1 : vectors) {
-            for (ArrowVector arrowVector2 : vectors) {
-                if (arrowVector1 == arrowVector2) {
-                    continue;
-                }
-                sumCPs += crossProduct(arrowVector1, arrowVector2);
-            }
-        }
-        Double meanAngle = Math.acos(sumCPs / (vectors.size() - 1) / vectors.size());
-        return meanAngle;
-    }
-
-
-    public static Tuple2D minimumAngle(Vectors vectors) {
+        public static Tuple2D minimumAngle(Vectors vectors) {
 
         Double minimumCP = 2 * Math.PI;
         Double maximumCP = 0.0;
@@ -46,21 +29,6 @@ public class Spread {
         return vector1.getX() * vector2.getX() + vector1.getY() * vector2.getY() + vector1.getZ() * vector2.getZ();
     }
 
-    public static Double crossProduct(ArrowVector arrowVectorA, ArrowVector arrowVectorB) {
-
-        Double x = (arrowVectorA.getY() * arrowVectorB.getZ() -
-                arrowVectorA.getZ() * arrowVectorB.getY());
-
-        Double y = (arrowVectorA.getZ() * arrowVectorB.getX() -
-                arrowVectorA.getX() * arrowVectorB.getZ());
-
-        Double z = (arrowVectorA.getX() * arrowVectorB.getY() -
-                arrowVectorA.getY() * arrowVectorB.getX());
-
-        Double result = Math.sqrt(x * x + y * y + z * z);
-
-        return result;
-    }
 
     public static Double norm(ArrowVector arrowVector) {
         Double result = Math.sqrt(
