@@ -1,16 +1,14 @@
 public class Spread {
-        public static Tuple2D minimumAngle(Vectors vectors) {
+        static Tuple2D minimumAngle(Vectors vectors) {
 
-        Double minimumCP = 2 * Math.PI;
-        Double maximumCP = 0.0;
+        double minimumCP = 2 * Math.PI;
+        double maximumCP = 0.0;
 
 
         for (ArrowVector arrowVector1 : vectors) {
             minimumCP = 2 * Math.PI;
             for (ArrowVector arrowVector2 : vectors) {
-                if (arrowVector1 == arrowVector2) {
-                    continue;
-                }
+                if (arrowVector1 == arrowVector2) continue;
                 Double cA = calculateAngle(arrowVector1, arrowVector2);
                 minimumCP = Math.min(cA, minimumCP);
             }
