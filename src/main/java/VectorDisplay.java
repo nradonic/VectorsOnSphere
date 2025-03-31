@@ -27,21 +27,27 @@ public class VectorDisplay extends JPanel {
         final int vectorLengthToDisplayScaling = 2;
         int centerX = g.getClipBounds().width / 2;
         int centerY = length * 2 + headerWidth;
-        Double rotatedX = rotate(v, angle);
+        Double rotatedX = rotateX(v, angle);
+        Double rotatedZ = rotateZ(v, angle);
         Double rotatedDx = rotateDx(v, angle);
         int x = (int) (rotatedX * length * vectorLengthToDisplayScaling);
         int y = (int) (v.getY() * length * vectorLengthToDisplayScaling);
+        double z = rotateZ(v, angle);
         int dX = (int) (rotatedDx * ovalRadius);//length);
         int dY = (int) (v.getdY() * ovalRadius);//length);
 
+        double zk = ovalRadius * (1.5 + z);
+
         g.setColor(calculateColorForVector(v));
-        if(v.ageEqZero()) {
+
+        if (v.ageEqZero()) {
             g.drawLine(centerX, centerY, centerX + x, centerY + y);
+            g.drawOval((int) (centerX + x - zk), (int) (centerY + y - zk),
+                    (int) (2 * zk), (int) (2 * zk));
+        } else {
+            g.drawOval((int) (centerX + x + dX - ovalRadius / 2.0), (int) (centerY + y + dY - ovalRadius / 2.0),
+                    ovalRadius, ovalRadius);
         }
-        g.drawOval(centerX + x - ovalRadius, centerY + y - ovalRadius,
-                2 * ovalRadius, 2 * ovalRadius);
-        g.drawOval((int) (centerX + x + dX - ovalRadius / 2.0), (int) (centerY + y + dY - ovalRadius / 2.0),
-                ovalRadius, ovalRadius);
     }
 
     Color calculateColorForVector(ArrowVector v) {
@@ -52,7 +58,7 @@ public class VectorDisplay extends JPanel {
         return new Color(r, g, b);
     }
 
-    private Double rotate(ArrowVector v, Double angle) {
+    private Double rotateX(ArrowVector v, Double angle) {
 
         Double x = v.getX();
         Double z = v.getZ();
@@ -66,6 +72,14 @@ public class VectorDisplay extends JPanel {
         Double z = v.getdZ();
         Double newX = z * Math.sin(angle) + x * Math.cos(angle);
         return newX;
+    }
+
+    private Double rotateZ(ArrowVector v, Double angle) {
+
+        Double x = v.getX();
+        Double z = v.getZ();
+        Double newZ = z * Math.cos(angle) - x * Math.sin(angle);
+        return newZ;
     }
 
     public void paint(Graphics g) {
