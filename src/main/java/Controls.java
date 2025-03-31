@@ -1,20 +1,17 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.logging.Logger;
 
 public class Controls extends JPanel {
-    static Logger logger = Logger.getLogger(Controls.class.getName());
+//    static Logger logger = Logger.getLogger(Controls.class.getName());
 
     Double rotation = 0.0;
 
     static boolean nextGeneration = false;
     static boolean continuous = false;
-    static Double angle = 0.0;
     JButton button1;
     JButton button2;
     JSlider slider;
@@ -52,7 +49,7 @@ public class Controls extends JPanel {
         slider.setMinorTickSpacing(10);
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
-        slider.addChangeListener(e -> sliderChanged(slider));
+        slider.addChangeListener(_ -> Controls.this.sliderChanged(slider));
 
         Dimension k = new Dimension(700, 50);
         slider.setPreferredSize(k);
@@ -62,36 +59,27 @@ public class Controls extends JPanel {
 
     public void sliderChanged(JSlider slider) {
 
-        Double angle = (double) slider.getValue();
+        double angle = slider.getValue();
         rotation = angle / 180 * Math.PI;
     }
 
-    ActionListener actionListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
+    ActionListener actionListener = _ -> {
 //            logger.info("Next");
-            nextGeneration = true;
-            continuous = false;
-        }
+        nextGeneration = true;
+        continuous = false;
     };
 
-    ActionListener actionListener2 = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
+    ActionListener actionListener2 = _ -> {
 //            logger.info("Continuous");
-            continuous = !continuous;
-        }
+        continuous = !continuous;
     };
 
     public boolean getNextGeneration() {
 //        logger.info("getNextGen");
 
         boolean result = nextGeneration;
-        if (continuous == false) {
-            nextGeneration = false;
-        }
+        nextGeneration = continuous;
         if (continuous) {
-            nextGeneration = true;
             result = true;
         }
         return result;
@@ -101,17 +89,10 @@ public class Controls extends JPanel {
         return rotation;
     }
 
-    public void setRotation(Double angle) {
-        int k = (int) (angle / (2 * Math.PI));
-        rotation = angle - k * (2 * Math.PI);
-    }
-
     public KeyListener keyListener = new KeyListener() {
         @Override
         public void keyTyped(KeyEvent evt) {
-            if (evt == null) {
-                return;
-            }
+            if (evt == null) return;
             clearBadText();
         }
 
